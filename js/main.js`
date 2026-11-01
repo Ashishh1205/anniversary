@@ -1,0 +1,305 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- LOCK SCREEN LOGIC ---
+    const lockScreen = document.getElementById('lock-screen');
+    const selectionStep = document.getElementById('vault-selection');
+    const entryStep = document.getElementById('vault-entry');
+    const unlockBtn = document.getElementById('unlock-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const backBtn = document.getElementById('back-to-select');
+    const lockError = document.getElementById('lock-error');
+    const passcodeDotsContainer = document.getElementById('passcode-dots');
+    const entryTitle = document.getElementById('entry-title');
+    const entryQuestion = document.getElementById('entry-question');
+
+    const VALID_PASSCODES = ['071428', '12052007'];
+
+    let currentInput = '';
+    let activeVault = null;
+
+    const vaultConfig = {
+        phone: {
+            title: 'Phone Vault',
+            question: 'Aapke bnde ke phone ka password?',
+            length: 6
+        },
+        birthdate: {
+            title: 'Birthdate Vault',
+            question: 'Aapke bnde ki birthdate?',
+            length: 8
+        }
+    };
+
+    function createDots() {
+        if (!activeVault) return;
+        passcodeDotsContainer.innerHTML = '';
+        const length = vaultConfig[activeVault].length;
+        for (let i = 0; i < length; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            passcodeDotsContainer.appendChild(dot);
+        }
+        updateDots();
+    }
+
+    function updateDots() {
+        const dots = passcodeDotsContainer.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            if (index < currentInput.length) {
+                dot.classList.add('filled');
+            } else {
+                dot.classList.remove('filled');
+            }
+        });
+    }
+
+    function attemptUnlock() {
+        if (VALID_PASSCODES.includes(currentInput)) {
+            lockScreen.style.opacity = '0';
+            setTimeout(() => {
+                lockScreen.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 600);
+        } else {
+            lockError.style.display = 'block';
+            currentInput = '';
+            updateDots();
+
+            const container = document.querySelector('.lock-container');
+            container.style.animation = 'none';
+            container.offsetHeight;
+            container.style.animation = 'shake 0.4s ease';
+        }
+    }
+
+    // Navigation Logic using .onclick for maximum Chrome compatibility
+    const selectPhoneBtn = document.getElementById('select-phone');
+    if (selectPhoneBtn) {
+        selectPhoneBtn.onclick = () => {
+            activeVault = 'phone';
+            currentInput = '';
+            entryTitle.innerText = vaultConfig.phone.title;
+            entryQuestion.innerText = vaultConfig.phone.question;
+            selectionStep.style.display = 'none';
+            entryStep.style.display = 'block';
+            createDots();
+        };
+    }
+
+    const selectBirthdateBtn = document.getElementById('select-birthdate');
+    if (selectBirthdateBtn) {
+        selectBirthdateBtn.onclick = () => {
+            activeVault = 'birthdate';
+            currentInput = '';
+            entryTitle.innerText = vaultConfig.birthdate.title;
+            entryQuestion.innerText = vaultConfig.birthdate.question;
+            selectionStep.style.display = 'none';
+            entryStep.style.display = 'block';
+            createDots();
+        };
+    }
+
+    if (backBtn) {
+        backBtn.onclick = () => {
+            entryStep.style.display = 'none';
+            selectionStep.style.display = 'block';
+        };
+    }
+
+    // Robust event delegation for numbers
+    document.addEventListener('click', (e) => {
+        if (e.target && e.target.classList.contains('num-btn')) {
+            if (!activeVault) return;
+            const maxLen = vaultConfig[activeVault].length;
+            if (currentInput.length < maxLen) {
+                currentInput += e.target.innerText;
+                updateDots();
+            }
+        }
+    });
+
+    if (clearBtn) {
+        clearBtn.onclick = () => {
+            currentInput = '';
+            updateDots();
+        };
+    }
+
+    if (unlockBtn) {
+        unlockBtn.onclick = attemptUnlock;
+    }
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    document.body.style.overflow = 'hidden';
+
+    // --- Intersection Observer for reveal animations ---
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+
+    const heroElements = document.querySelectorAll('.hero .reveal');
+    heroElements.forEach((el, index) => {
+        setTimeout(() => {
+            el.classList.add('active');
+        }, 300 * index);
+    });
+
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // --- LOVE COUNTER LOGIC ---
+    function updateTimer() {
+        const anniversaryDate = new Date('2025-10-25T00:00:00').getTime();
+        const now = new Date().getTime();
+        const difference = now - anniversaryDate;
+
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        if(document.getElementById('days')) {
+            document.getElementById('days').innerText = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+        }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // --- MUSIC PLAYER LOGIC ---
+    const musicBtn = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+    if (musicBtn && bgMusic) {
+        musicBtn.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicBtn.innerText = '⏸️ Pause Song';
+            } else {
+                bgMusic.pause();
+                musicBtn.innerText = '🎵 Play Our Song';
+            }
+        });
+    }
+
+    // --- LIGHTBOX LOGIC ---
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCap = document.getElementById('lightbox-caption');
+    const closeLightbox = document.querySelector('.close-lightbox');
+
+    document.querySelectorAll('.lightbox-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const src = trigger.getAttribute('data-src') || 'images/placeholder.jpg';
+            const caption = trigger.innerText;
+            lightboxImg.src = src;
+            lightboxCap.innerText = caption;
+            lightbox.style.display = 'flex';
+        });
+    });
+
+    if (closeLightbox) {
+        closeLightbox.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+    }
+
+    // --- SECRET ENVELOPE LOGIC ---
+    const envelope = document.getElementById('envelope');
+    if (envelope) {
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('open');
+            if(envelope.classList.contains('open')) {
+                createConfetti();
+            }
+        });
+    }
+
+    function createConfetti() {
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.backgroundColor = ['#FADADD', '#C5A059', '#FFFFFF', '#E8B4B8'][Math.floor(Math.random() * 4)];
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = confetti.style.width;
+            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 5000);
+        }
+    }
+
+    const confettiStyle = document.createElement('style');
+    confettiStyle.innerHTML = `
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(confettiStyle);
+
+    const particleContainer = document.querySelector('.floating-particles');
+    if (particleContainer) {
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 3 + 1 + 'px';
+            particle.style.width = size;
+            particle.style.height = size;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.position = 'absolute';
+            particle.style.backgroundColor = 'rgba(197, 160, 10, 0.4)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            const duration = Math.random() * 20 + 10 + 's';
+            const delay = Math.random() * -20 + 's';
+            particle.animate([
+                { transform: 'translateY(0) translateX(0)', opacity: 0 },
+                { opacity: 0.6, offset: 0.5 },
+                { transform: `translateY(-${Math.random() * 100 + 50}px) translateX(${Math.random() * 50 - 25}px)`, opacity: 0 }
+            ], {
+                duration: parseFloat(duration) * 1000,
+                delay: parseFloat(delay) * 1000,
+                iterations: Infinity
+            });
+            particleContainer.appendChild(particle);
+        }
+    }
+
+    document.querySelector('.scroll-indicator').addEventListener('click', () => {
+        window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+        });
+    });
+});
