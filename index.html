@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Eternal Journey | One Year of Us</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Password Lock Screen -->
+    <div id="lock-screen" class="lock-screen">
+        <div class="lock-container">
+            <!-- Step 1: Selection Page -->
+            <div id="vault-selection" class="lock-step">
+                <div class="lock-icon">🔒</div>
+                <h2 class="lock-title">Private Vault</h2>
+                <p class="lock-instruction">Choose a way to enter:</p>
+                <div class="selection-grid">
+                    <button class="select-btn" id="select-phone">
+                        <span class="btn-icon">📱</span>
+                        <span class="btn-text">Phone Passcode</span>
+                    </button>
+                    <button class="select-btn" id="select-birthdate">
+                        <span class="btn-icon">🎂</span>
+                        <span class="btn-text">Birthdate</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Vault Entry Page -->
+            <div id="vault-entry" class="lock-step" style="display: none;">
+                <button class="back-btn" id="back-to-select">← Back</button>
+                <h2 class="lock-title" id="entry-title">Vault</h2>
+                <p class="lock-question" id="entry-question"></p>
+
+                <div class="passcode-display" id="passcode-dots">
+                    <!-- Dots will be injected by JS -->
+                </div>
+
+                <div class="num-pad">
+                    <button class="num-btn">1</button>
+                    <button class="num-btn">2</button>
+                    <button class="num-btn">3</button>
+                    <button class="num-btn">4</button>
+                    <button class="num-btn">5</button>
+                    <button class="num-btn">6</button>
+                    <button class="num-btn">7</button>
+                    <button class="num-btn">8</button>
+                    <button class="num-btn">9</button>
+                    <button class="clear-btn" id="clear-btn">C</button>
+                    <button class="num-btn">0</button>
+                    <button class="unlock-btn" id="unlock-btn">OK</button>
+                </div>
+                <p id="lock-error" class="error-msg">Wrong code! Try again, love. 😘</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+
+
+
+
+    <nav class="navbar">
+        <div class="nav-logo">✨ Our Love Story ✨</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#story">Our Story</a></li>
+            <li><a href="#gallery">Memories</a></li>
+            <li><a href="#letter">My Promise</a></li>
+        </ul>
+    </nav>
+
+    <!-- Background Music Player -->
+    <div class="music-player">
+        <button id="musicToggle" class="music-btn">🎵 Play Our Song</button>
+        <audio id="bgMusic" loop>
+            <source src="images/ordinary.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <!-- Floating Background Stickers -->
+    <div class="bg-stickers">
+        <div class="sticker" style="top: 15%; left: 10%; font-size: 3rem; animation-delay: 0s;">💐</div>
+        <div class="sticker" style="top: 25%; right: 12%; font-size: 2rem; animation-delay: 2s;">💖</div>
+        <div class="sticker" style="top: 45%; left: 5%; font-size: 2.5rem; animation-delay: 4s;">🌹</div>
+        <div class="sticker" style="top: 60%; right: 8%; font-size: 3rem; animation-delay: 1s;">🧸</div>
+        <div class="sticker" style="top: 80%; left: 15%; font-size: 2rem; animation-delay: 3s;">✨</div>
+        <div class="sticker" style="top: 35%; left: 85%; font-size: 2rem; animation-delay: 5s;">🌸</div>
+        <div class="sticker" style="top: 70%; left: 80%; font-size: 2.5rem; animation-delay: 2s;">💌</div>
+        <div class="sticker" style="top: 50%; left: 50%; font-size: 1.5rem; animation-delay: 6s;">🎈</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-bg-animated"></div>
+        <div class="hero-overlay"></div>
+        <div class="floating-particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge reveal">My Favorite Person ❤️</div>
+            <h2 class="reveal">Happy 1st Anniversary, Hardika</h2>
+            <h1 class="reveal">You're My Everything</h1>
+            <p class="reveal">365 days of cuddles, laughs, and the most beautiful love I've ever known.</p>
+            <div class="scroll-indicator reveal">
+                <span class="scroll-text">Scroll for a surprise... 🎁</span>
+                <div class="arrow"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Love Quote -->
+    <section class="quote-section">
+        <div class="container">
+            <div class="quote-wrapper reveal">
+                <div class="quote-sparkle"></div>
+                <p class="quote-text">"In all the world, there is no heart for me like yours. <br> In all the world, there is no love for you like mine."</p>
+                <span class="quote-author">— Maya Angelou</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="story" class="story">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-image reveal">
+                    <div class="image-frame">
+                        <img src="images/IMG_1913.jpeg" alt="The First Chapter" class="story-img">
+                    </div>
+                </div>
+                <div class="story-text reveal">
+                    <h3 class="section-title">The Beginning</h3>
+                    <p>Every great story has a beginning, and ours is my favorite. From the moment we first met, there was a spark that felt like home. This past year has been a whirlwind of laughter, quiet moments, and the kind of love I only thought existed in movies.</p>
+                    <p>You've become my confidante, my greatest supporter, and the person who makes every ordinary day feel extraordinary.</p>
+                    <div class="story-stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-num">365</span>
+                            <span class="stat-label">Days Together</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">∞</span>
+                            <span class="stat-label">Memories Made</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Counter Section -->
+    <section class="love-counter">
+        <div class="container">
+            <h3 class="section-title centered reveal">Every Second Counts</h3>
+            <div id="timer" class="timer-grid reveal">
+                <div class="timer-box"><span id="days">00</span><span class="timer-label">Days</span></div>
+                <div class="timer-box"><span id="hours">00</span><span class="timer-label">Hours</span></div>
+                <div class="timer-box"><span id="minutes">00</span><span class="timer-label">Mins</span></div>
+                <div class="timer-box"><span id="seconds">00</span><span class="timer-label">Secs</span></div>
+            </div>
+            <p class="timer-subtext reveal">And I've loved you every single one of them.</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h3 class="section-title centered reveal">Our Year in Moments</h3>
+            <div class="linear-timeline">
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/1.JPG"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 1</span>
+                        <span class="node-desc">Where it all began...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/2.jpg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 2</span>
+                        <span class="node-desc">Getting to know you...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/3.jpg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 3</span>
+                        <span class="node-desc">First real laughs...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/4.jpg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 4</span>
+                        <span class="node-desc">Deepening the bond...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/5.jpeg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 5</span>
+                        <span class="node-desc">Our favorite dates...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/6.jpeg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 6</span>
+                        <span class="node-desc">Half a year of us...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/7.JPG"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 7</span>
+                        <span class="node-desc">Growing together...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/8.JPG"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 8</span>
+                        <span class="node-desc">Unforgettable moments...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/9.jpeg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 9</span>
+                        <span class="node-desc">Quiet nights in...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/10.png"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 10</span>
+                        <span class="node-desc">Endless support...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/11.JPEG"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 11</span>
+                        <span class="node-desc">Almost there...</span>
+                    </div>
+                </div>
+                <div class="timeline-node reveal">
+                    <div class="node-image">
+                        <div class="img-placeholder lightbox-trigger" data-src="images/12.jpeg"></div>
+                    </div>
+                    <div class="node-info">
+                        <span class="node-month">Month 12</span>
+                        <span class="node-desc">One beautiful year...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video" class="video-section">
+        <div class="container">
+            <h3 class="section-title centered reveal">A Moment in Time</h3>
+            <div class="video-wrapper reveal">
+                <video controls poster="images/1.JPG" preload="metadata">
+                    <source src="images/copy_1A1930DD-A88A-48C1-8BBF-44550EA90CEA.MOV" type="video/mp4">
+                    <source src="images/copy_1A1930DD-A88A-48C1-8BBF-44550EA90CEA.MOV" type="video/quicktime">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Letter Section -->
+    <section id="letter" class="letter">
+        <div class="container">
+            <div class="letter-card reveal">
+                <div class="letter-border"></div>
+                <div class="secret-envelope" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-body">
+                        <div class="hidden-letter">
+                            <h3 class="letter-title">My Dearest Hardika,</h3>
+                            <p>As we hit this one-year mark, I find myself looking back at everything we've built. Not just a relationship, but a safe haven. Thank you for loving me in a way that makes me want to be the best version of myself.</p>
+                            <p>I love the way you see the world, the way you care for others, and the way you love me. Here is to the first of many years, many more adventures, and a lifetime of choosing you every single day.</p>
+                            <p class="letter-signature">Always Yours, <br> Ashish</p>
+                        </div>
+                    </div>
+                    <span class="click-me">Click to Open 💌</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p>&copy; 2026 | One Year of Eternal Love</p>
+            <div class="footer-heart">❤️</div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
